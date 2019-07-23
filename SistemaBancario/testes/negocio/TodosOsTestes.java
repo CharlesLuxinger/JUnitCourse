@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-// Informa qual a Classe Suite
+// Informa que a Classe e uma Suite Class
 @RunWith(Suite.class)
 
 // Informa quais classes serão executadas pela classe Suite
@@ -21,6 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 				GerenciadoraContasTest_Ex6.class,
 				GerenciadoraContasTest_Ex11.class })
 
+// Nome da Suite Class
 public class TodosOsTestes {
 
 }
