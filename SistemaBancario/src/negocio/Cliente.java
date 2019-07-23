@@ -124,7 +124,7 @@ public class Cliente {
 	@Override
 	public String toString() {
 		
-		String str ="=========================" 
+		String str ="=========================\n" 
 					+"Id: " + this.id + "\n"
 					+ "Nome: " + this.nome + "\n"
 					+ "Email: " + this.email + "\n"
