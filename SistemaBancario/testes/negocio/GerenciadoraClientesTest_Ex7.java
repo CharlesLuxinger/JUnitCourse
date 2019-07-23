@@ -44,6 +44,7 @@ public class GerenciadoraClientesTest_Ex7 {
 
 	@After
 	public void tearDown() {
+		//Limpa a lista de cliente
 		gerClientes.limpa();
 
 //		System.out.println("After foi executado");

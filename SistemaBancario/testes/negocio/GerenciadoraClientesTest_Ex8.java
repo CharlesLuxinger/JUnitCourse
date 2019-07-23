@@ -15,44 +15,46 @@ import org.junit.Test;
  * sobre clientes, realizadas pela classe {@link GerenciadoraClientes}.
  * 
  * @author Gustavo Farias
- * @date 21/01/2035 
+ * @date 21/01/2035
  */
 public class GerenciadoraClientesTest_Ex8 {
 
 	private GerenciadoraClientes gerClientes;
 	private int idCLiente01 = 1;
-	private	int idCLiente02 = 2;
-	
+	private int idCLiente02 = 2;
+
 	@Before
 	public void setUp() {
-	
+
 		/* ========== Montagem do cenário ========== */
-		
+
 		// criando alguns clientes
 		Cliente cliente01 = new Cliente(idCLiente01, "Gustavo Farias", 31, "gugafarias@gmail.com", 1, true);
 		Cliente cliente02 = new Cliente(idCLiente02, "Felipe Augusto", 34, "felipeaugusto@gmail.com", 1, true);
-		
+
 		// inserindo os clientes criados na lista de clientes do banco
 		List<Cliente> clientesDoBanco = new ArrayList<>();
 		clientesDoBanco.add(cliente01);
 		clientesDoBanco.add(cliente02);
-		
+
 		gerClientes = new GerenciadoraClientes(clientesDoBanco);
-	
+
 		// a) Abriu conexão com o BD? Então...
 		// b) Criou arquivos e pastas aqui? Então...
-		// c) Inseriu clientes fictícios na base de dados especificamente para os testes desta classe? Então...
+		// c) Inseriu clientes fictícios na base de dados especificamente para os testes
+		// desta classe? Então...
 	}
 
 	@After
 	public void tearDown() {
+		// Limpa a lista de cliente
 		gerClientes.limpa();
-		
+
 		// a) Fecha aqui!!!
 		// b) Apaga todos eles aqui!!!
 		// c) Apaga eles aqui!!!
 	}
-	
+
 	/**
 	 * Teste básico da pesquisa de um cliente a partir do seu ID.
 	 * 
@@ -63,13 +65,16 @@ public class GerenciadoraClientesTest_Ex8 {
 	public void testPesquisaCliente() {
 
 		/* ========== Execução ========== */
+		// Retorno do método em teste
 		Cliente cliente = gerClientes.pesquisaCliente(idCLiente01);
-		
+
 		/* ========== Verificações ========== */
+		// Verifica se o ID e o Email são correspondetes
 		assertThat(cliente.getId(), is(idCLiente01));
-		
+		assertThat(cliente.getEmail(), is("gugafarias@gmail.com"));
+
 	}
-	
+
 	/**
 	 * Teste básico da remoção de um cliente a partir do seu ID.
 	 * 
@@ -78,16 +83,20 @@ public class GerenciadoraClientesTest_Ex8 {
 	 */
 	@Test
 	public void testRemoveCliente() {
-		
+
 		/* ========== Execução ========== */
+		// Retorno e Método ao qual desejo testar
 		boolean clienteRemovido = gerClientes.removeCliente(idCLiente02);
-		
+
 		/* ========== Verificações ========== */
+		// Verifica o valor da variável
 		assertThat(clienteRemovido, is(true));
+		// Verifica o qtd de clientes
 		assertThat(gerClientes.getClientesDoBanco().size(), is(1));
+		// Verifica o retorno é nulo
 		assertNull(gerClientes.pesquisaCliente(idCLiente02));
-		
+
 	}
-	
+
 }
 // A Independência do Teste
