@@ -47,10 +47,13 @@ public class GerenciadoraContasTest_Ex6 {
 		gerContas = new GerenciadoraContas(contasDoBanco);
 
 		/* ========== Execução ========== */
+		// Método ao qual desejo testar
 		boolean sucesso = gerContas.transfereValor(idConta01, 100, idConta02);
 		
 		/* ========== Verificações ========== */
+		// Verifica o o valor da variável
 		assertTrue(sucesso);
+		// Verifica o saldo das contas
 		assertThat(conta02.getSaldo(), is(100.0));
 		assertThat(conta01.getSaldo(), is(100.0));
 	}
@@ -81,10 +84,13 @@ public class GerenciadoraContasTest_Ex6 {
 		gerContas = new GerenciadoraContas(contasDoBanco);
 
 		/* ========== Execução ========== */
+		// Método ao qual desejo testar
 		boolean sucesso = gerContas.transfereValor(idConta01, 200, idConta02);
 		
 		/* ========== Verificações ========== */
+		// Verifica o o valor da variável
 		assertTrue(sucesso);
+		// Verifica o saldo das contas
 		assertThat(conta01.getSaldo(), is(-100.0));
 		assertThat(conta02.getSaldo(), is(200.0));
 	}
