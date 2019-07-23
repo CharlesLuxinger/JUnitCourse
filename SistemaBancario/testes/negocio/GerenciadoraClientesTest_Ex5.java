@@ -44,9 +44,11 @@ public class GerenciadoraClientesTest_Ex5 {
 		gerClientes = new GerenciadoraClientes(clientesDoBanco);
 
 		/* ========== Execução ========== */
+		// Retorno do método em teste
 		Cliente cliente = gerClientes.pesquisaCliente(idCLiente01);
 
 		/* ========== Verificações ========== */
+		// Verifica se o ID e o Email são correspondetes
 		assertThat(cliente.getId(), is(idCLiente01));
 
 	}
