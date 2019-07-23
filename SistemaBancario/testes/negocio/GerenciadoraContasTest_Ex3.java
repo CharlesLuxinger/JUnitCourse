@@ -29,9 +29,11 @@ public class GerenciadoraContasTest_Ex3 {
 		gerContas = new GerenciadoraContas(contasDoBanco);
 
 		/* ========== Execução ========== */
+		// Método ao qual desejo testar
 		gerContas.transfereValor(1, 100, 2);
 		
 		/* ========== Verificações ========== */
+		// Verifica o saldo das contas
 		assertThat(conta02.getSaldo(), is(100.0));
 		assertThat(conta01.getSaldo(), is(100.0));
 	}
