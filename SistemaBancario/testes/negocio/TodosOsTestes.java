@@ -4,7 +4,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+// Informa qual a Classe Suite
 @RunWith(Suite.class)
+
+// Informa quais classes serão executadas pela classe Suite
 @SuiteClasses({ GerenciadoraClientesTest_Ex1.class, 
 				GerenciadoraClientesTest_Ex2.class,
 				GerenciadoraClientesTest_Ex3.class, 
@@ -17,15 +20,8 @@ import org.junit.runners.Suite.SuiteClasses;
 				GerenciadoraContasTest_Ex4.class, 
 				GerenciadoraContasTest_Ex6.class,
 				GerenciadoraContasTest_Ex11.class })
+
 public class TodosOsTestes {
 
 }
 
-/*
- * @SuiteClasses({ GerenciadoraClientesTest_Ex1.class,
- * GerenciadoraClientesTest_Ex2.class, GerenciadoraClientesTest_Ex3.class,
- * GerenciadoraClientesTest_Ex4.class, GerenciadoraClientesTest_Ex5.class,
- * GerenciadoraClientesTest_Ex7.class, GerenciadoraClientesTest_Ex8.class,
- * GerenciadoraContasTest_Ex3.class, GerenciadoraContasTest_Ex4.class,
- * GerenciadoraContasTest_Ex6.class})
- */

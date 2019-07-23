@@ -99,4 +99,3 @@ public class GerenciadoraClientesTest_Ex8 {
 	}
 
 }
-// A Independência do Teste
