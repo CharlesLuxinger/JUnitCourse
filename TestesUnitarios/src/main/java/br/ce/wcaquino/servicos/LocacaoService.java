@@ -1,8 +1,9 @@
 package br.ce.wcaquino.servicos;
 
-import static br.ce.wcaquino.utils.DataUtils.adicionarDias;
-
 import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
@@ -20,7 +21,7 @@ public class LocacaoService {
 
 		// Entrega no dia seguinte
 		Date dataEntrega = new Date();
-		dataEntrega = adicionarDias(dataEntrega, 1);
+		dataEntrega = DataUtils.adicionarDias(dataEntrega, 1);
 		locacao.setDataRetorno(dataEntrega);
 
 		// Salvando a locacao...
@@ -29,9 +30,9 @@ public class LocacaoService {
 		return locacao;
 	}
 
-	public static void main(String[] args) {
+	@Test
+	public void teste() {
 		// Cénario
-
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 2, 5.0);
@@ -40,10 +41,10 @@ public class LocacaoService {
 		Locacao locacao = service.alugarFilme(usuario, filme);
 
 		// Verificação
-		
-		//Teste não funcionais
-		System.out.println(locacao.getValor() == 5.0);
-		System.out.println(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-		System.out.println(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
+
+		// Teste não funcionais
+		Assert.assertTrue(locacao.getValor() == 5.0);
+		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
+		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
 	}
 }
