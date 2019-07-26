@@ -27,6 +27,9 @@ import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTeste {
+	// O JUnit não garante à ordem de execução, então é necessário manter os testes
+	// independentes
+
 	LocacaoService service;
 
 	@Rule
