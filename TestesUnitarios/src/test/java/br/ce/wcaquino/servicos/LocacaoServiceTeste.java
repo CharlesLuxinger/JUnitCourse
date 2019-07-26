@@ -18,13 +18,15 @@ import org.junit.rules.ExpectedException;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.exceptions.FilmesSemEstoqueException;
+import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTeste {
 
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
-	
+
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
@@ -61,7 +63,10 @@ public class LocacaoServiceTeste {
 	}
 
 	// Tratando exceções
-	@Test(expected = Exception.class)
+	// Não garante que a excessão e a esperada, por não tratar qual mensagem é
+	// enviada, sendo necessário criar uma excessão espefica
+	// @Test(expected = Exception.class)
+	@Test(expected = FilmesSemEstoqueException.class)
 	public void alugarFilme_SemEstoque_Teste() throws Exception {
 		// Cénario
 		LocacaoService service = new LocacaoService();
@@ -73,7 +78,7 @@ public class LocacaoServiceTeste {
 	}
 
 	@Test
-	public void alugarFilme_SemEstoque2_Teste() {
+	public void alugarFilme_SemEstoque2_Teste() throws LocadoraException {
 		// Cénario
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
@@ -83,25 +88,54 @@ public class LocacaoServiceTeste {
 		try {
 			service.alugarFilme(usuario, filme);
 			fail("Deveria lançar excessão");
-		} catch (Exception e) {
-			assertThat(e.getMessage(), is("Filme sem estoque"));
+		} catch (FilmesSemEstoqueException e) {
+			assertEquals(e.getMessage(), null);
 		}
 	}
-	
+
 	@Test
 	public void alugarFilme_SemEstoque3_Teste() throws Exception {
 		// Cénario
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0);
-		
-		//Deve ser declarado antes da ação
-		expectedException.expect(Exception.class);
-		expectedException.expectMessage("Filme sem estoque");
 
+		// Deve ser declarado antes da ação
+		expectedException.expect(FilmesSemEstoqueException.class);
+		//expectedException.expectMessage(); -- não aceita mensagem null
 
 		// Ação
 		service.alugarFilme(usuario, filme);
+
+	}
+
+	@Test
+	public void locacao_usuarioVazio_Test() throws FilmesSemEstoqueException {
+		// Cénario
+		LocacaoService service = new LocacaoService();
+		Filme filme = new Filme("Filme 1", 2, 5.0);
+
+		// Ação
+		try {
+			service.alugarFilme(null, filme);
+		} catch (LocadoraException e) {
+			assertThat(e.getMessage(), is("Usuario vazio"));
+		}
 		
-			}
+		//o codigo continua após a verificação da excessão
+	}
+
+	@Test
+	public void locacao_filmeVazio_Test() throws FilmesSemEstoqueException, LocadoraException {
+		// Cénario
+		LocacaoService service = new LocacaoService();
+		Usuario usuario = new Usuario("Usuario 1");
+
+		expectedException.expect(Exception.class);
+		expectedException.expectMessage("Filme vazio");
+		
+		//o codigo não continua após a verificação da excessão
+		// Ação
+		service.alugarFilme(usuario, null);
+	}
 }
