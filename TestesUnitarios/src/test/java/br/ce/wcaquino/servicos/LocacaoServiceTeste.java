@@ -8,7 +8,9 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,7 +30,8 @@ import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTeste {
 	// O JUnit não garante à ordem de execução, então é necessário manter os testes
-	// independentes
+	// independentes. Somente através da anotação
+	// @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 	LocacaoService service;
 
@@ -67,11 +70,11 @@ public class LocacaoServiceTeste {
 		// Cénario
 
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 2, 5.0);
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 5.0));
 
 		// Ação
 
-		Locacao locacao = service.alugarFilme(usuario, filme);
+		Locacao locacao = service.alugarFilme(usuario, filmes);
 
 		// Verificação
 		assertEquals(5.0, locacao.getValor(), 0.01);
@@ -103,10 +106,10 @@ public class LocacaoServiceTeste {
 		// Cénario
 
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 0, 5.0));
 
 		// Ação
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, filmes);
 	}
 
 	@Test
@@ -114,11 +117,11 @@ public class LocacaoServiceTeste {
 		// Cénario
 
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 0, 5.0));
 
 		// Ação
 		try {
-			service.alugarFilme(usuario, filme);
+			service.alugarFilme(usuario, filmes);
 			fail("Deveria lançar excessão");
 		} catch (FilmesSemEstoqueException e) {
 			assertEquals(e.getMessage(), null);
@@ -130,14 +133,14 @@ public class LocacaoServiceTeste {
 		// Cénario
 
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 0, 5.0));
 
 		// Deve ser declarado antes da ação
 		expectedException.expect(FilmesSemEstoqueException.class);
 		// expectedException.expectMessage(); -- não aceita mensagem null
 
 		// Ação
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, filmes);
 
 	}
 
@@ -145,11 +148,11 @@ public class LocacaoServiceTeste {
 	public void locacao_usuarioVazio_Test() throws FilmesSemEstoqueException {
 		// Cénario
 
-		Filme filme = new Filme("Filme 1", 2, 5.0);
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 5.0));
 
 		// Ação
 		try {
-			service.alugarFilme(null, filme);
+			service.alugarFilme(null, filmes);
 		} catch (LocadoraException e) {
 			assertThat(e.getMessage(), is("Usuario vazio"));
 		}
