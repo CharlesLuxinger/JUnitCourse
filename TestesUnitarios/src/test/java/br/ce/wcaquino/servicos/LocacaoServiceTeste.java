@@ -7,8 +7,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeTrue;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +70,9 @@ public class LocacaoServiceTeste {
 
 	@Test
 	public void alugarFilme_Teste() throws Exception {
+
+		assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+
 		// Cénario
 
 		Usuario usuario = new Usuario("Usuario 1");
@@ -228,5 +234,22 @@ public class LocacaoServiceTeste {
 
 		// Verificacao
 		assertThat(resultado.getValor(), is(14.0));
+	}
+
+	@Test
+	// @Ignore
+	public void deveDevolverNaSegundaAoAlugarSabado() throws FilmesSemEstoqueException, LocadoraException {
+		assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+		// Cenário
+		Usuario usuario = new Usuario("Usuario 1");
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0));
+
+		// Ação
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+
+		// Verificacao
+		boolean segunda = DataUtils.verificarDiaSemana(resultado.getDataRetorno(), Calendar.MONDAY);
+
+		assertTrue(segunda);
 	}
 }
