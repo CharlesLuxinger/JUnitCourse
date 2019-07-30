@@ -1,5 +1,6 @@
 package br.ce.wcaquino.servicos;
 
+import static br.ce.wcaquino.matchers.DataDiferencaDiaMatcher.ehHojeComDiferencaDias;
 import static br.ce.wcaquino.matchers.OwnMatchers.caiEm;
 import static br.ce.wcaquino.matchers.OwnMatchers.caiNumaSegunda;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -103,6 +104,8 @@ public class LocacaoServiceTeste {
 		error.checkThat(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 		error.checkThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)),
 				is(true));
+		
+		error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDias(1));
 
 	}
 
