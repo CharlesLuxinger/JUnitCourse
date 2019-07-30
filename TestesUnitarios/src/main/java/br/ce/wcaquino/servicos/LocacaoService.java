@@ -1,6 +1,5 @@
 package br.ce.wcaquino.servicos;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -35,9 +34,28 @@ public class LocacaoService {
 		locacao.setDataLocacao(new Date());
 
 		Double valotTotal = 0.0;
-		for (Filme filme : filmes) {
-			valotTotal += filme.getPrecoLocacao();
+		for (int i = 0; i < filmes.size(); i++) {
+			Filme filme = filmes.get(i);
+			Double valorFilme = filme.getPrecoLocacao();
+
+			switch (i) {
+			case 2:
+				valorFilme = valorFilme * 0.75;
+				break;
+			case 3:
+				valorFilme = valorFilme * 0.5;
+				break;
+			case 4:
+				valorFilme = valorFilme * 0.25;
+				break;
+			case 5:
+				valorFilme = 0.0;
+				break;
+			}
+			valotTotal += valorFilme;
 		}
+
+		
 		locacao.setValor(valotTotal);
 
 		// Entrega no dia seguinte

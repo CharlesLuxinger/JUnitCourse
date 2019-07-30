@@ -79,6 +79,5 @@ public class CalculadoraTest {
 
 		// Ação
 		calc.dividi(a, b);
-
 	}
 }
