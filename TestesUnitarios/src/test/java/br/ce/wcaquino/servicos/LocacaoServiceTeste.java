@@ -1,5 +1,7 @@
 package br.ce.wcaquino.servicos;
 
+import static br.ce.wcaquino.matchers.OwnMatchers.caiEm;
+import static br.ce.wcaquino.matchers.OwnMatchers.caiNumaSegunda;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -69,6 +71,7 @@ public class LocacaoServiceTeste {
 	}
 
 	@Test
+	// @Ignore
 	public void alugarFilme_Teste() throws Exception {
 
 		assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
@@ -239,7 +242,9 @@ public class LocacaoServiceTeste {
 	@Test
 	// @Ignore
 	public void deveDevolverNaSegundaAoAlugarSabado() throws FilmesSemEstoqueException, LocadoraException {
+		
 		assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+		
 		// Cenário
 		Usuario usuario = new Usuario("Usuario 1");
 		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0));
@@ -249,6 +254,9 @@ public class LocacaoServiceTeste {
 
 		// Verificacao
 		boolean segunda = DataUtils.verificarDiaSemana(resultado.getDataRetorno(), Calendar.MONDAY);
+		assertThat(resultado.getDataRetorno(), caiEm(Calendar.MONDAY));
+		assertThat(resultado.getDataRetorno(), caiNumaSegunda());
+		
 
 		assertTrue(segunda);
 	}
