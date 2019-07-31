@@ -25,5 +25,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/java-libs/hamcrest-core/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/java-libs/builderMaster/builderMaster.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
