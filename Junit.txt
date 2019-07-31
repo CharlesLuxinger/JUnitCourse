@@ -1,0 +1,4 @@
+1. Auxiliar na medição de métrica de Análise de Cobertura de Testes utiliza-se um plugin no Eclipse
+    > eclimma
+    1.1 Buscar obter 100% de aprovação dos testes
+    1.2 Buscar obter 70-85% de cobertura de código pelos testes
