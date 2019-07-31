@@ -9,10 +9,13 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmesSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.wcaquino.servicos.daos.LocacaoDAO;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoService {
-
+	
+	private LocacaoDAO locacaoDAO;
+	
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes)
 			throws FilmesSemEstoqueException, LocadoraException {
 		if (usuario == null) {
@@ -70,8 +73,12 @@ public class LocacaoService {
 		locacao.setDataRetorno(dataEntrega);
 
 		// Salvando a locacao...
-		// TODO adicionar método para salvar
+		locacaoDAO.salvar(locacao); 
 
 		return locacao;
+	}
+	
+	public void setLocacaoDAO(LocacaoDAO dao) {
+		this.locacaoDAO = dao;
 	}
 }

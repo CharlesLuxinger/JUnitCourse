@@ -20,6 +20,8 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmesSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.wcaquino.servicos.daos.LocacaoDAO;
+import br.ce.wcaquino.servicos.daos.LocacaoDAOFake;
 
 @RunWith(Parameterized.class)
 public class CalculoValorLocacaoTest {
@@ -38,6 +40,8 @@ public class CalculoValorLocacaoTest {
 	@Before
 	public void setUp() {
 		service = new LocacaoService();
+		LocacaoDAO dao = new LocacaoDAOFake();
+		service.setLocacaoDAO(dao);
 	}
 
 	private static Filme filme1 = umFilme().agora();

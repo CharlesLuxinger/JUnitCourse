@@ -35,6 +35,8 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmesSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.wcaquino.servicos.daos.LocacaoDAO;
+import br.ce.wcaquino.servicos.daos.LocacaoDAOFake;
 import br.ce.wcaquino.utils.DataUtils;
 import buildermaster.BuilderMaster;
 
@@ -68,6 +70,8 @@ public class LocacaoServiceTeste {
 		// Executa antes de cada método @Test
 		// service = new LocacaoService();
 		service = new LocacaoService();
+		LocacaoDAO dao = new LocacaoDAOFake();
+		service.setLocacaoDAO(dao);
 	}
 
 	@After
