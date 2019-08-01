@@ -7,7 +7,6 @@ import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 import static br.ce.wcaquino.matchers.DataDiferencaDiaMatcher.ehHojeComDiferencaDias;
 import static br.ce.wcaquino.matchers.OwnMatchers.caiEm;
 import static br.ce.wcaquino.matchers.OwnMatchers.caiNumaSegunda;
-import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -18,7 +17,10 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -34,6 +36,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
@@ -285,23 +288,23 @@ public class LocacaoServiceTeste {
 	}
 
 	@Test
-	public void nãoDeveAlugarFilmeParaNegativadoSPC() throws FilmesSemEstoqueException{
+	public void nãoDeveAlugarFilmeParaNegativadoSPC() throws FilmesSemEstoqueException {
 		// Cenário
 		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = Arrays.asList(umFilme().agora());
 
-		when(spc.possuiNegativacao(usuario)).thenReturn(true);
+		when(spc.possuiNegativacao(Mockito.any(Usuario.class))).thenReturn(true);
 
 		// Ação
-		
+
 		try {
 			service.alugarFilme(usuario, filmes);
 			fail();
 		} catch (LocadoraException e) {
 			assertThat(e.getMessage(), is("Usuário Negativado!"));
 		}
-		
-		//Verificação
+
+		// Verificação
 		verify(spc).possuiNegativacao(usuario);
 	}
 
@@ -309,10 +312,10 @@ public class LocacaoServiceTeste {
 	public void deveEnviarEmailParaLocacoesAtrasadas() {
 		// Cenário
 		Usuario usuario = umUsuario().agora();
-		List<Locacao> locacoes = Arrays
-				.asList(umLocacao().comUsuario(usuario)
-				.comDataRetorno(obterDataComDiferencaDias(-2))
-				.agora());
+		Usuario usuario2 = umUsuario().comNome("Usuario 2").agora();
+		List<Locacao> locacoes = Arrays.asList(
+				umLocacao().atrasado().comUsuario(usuario).agora(),
+				umLocacao().comUsuario(usuario2).agora());
 
 		when(dao.obterLocacoesPendentes()).thenReturn(locacoes);
 
@@ -321,5 +324,9 @@ public class LocacaoServiceTeste {
 
 		// Verificação
 		verify(email).notificarAtraso(usuario);
+		verify(email, never()).notificarAtraso(usuario2);
+		
+		verifyNoMoreInteractions(email);
+		verifyZeroInteractions(spc);
 	}
 }
