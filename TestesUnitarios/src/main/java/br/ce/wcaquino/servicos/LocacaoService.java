@@ -85,13 +85,7 @@ public class LocacaoService {
 		return locacao;
 	}
 
-	public void setLocacaoDAO(LocacaoDAO dao) {
-		this.locacaoDAO = dao;
-	}
 
-	public void setSPCService(SPCService spc) {
-		this.spcService = spc;
-	}
 
 	public void notificarAtrasos() {
 		List<Locacao> locacoes = locacaoDAO.obterLocacoesPendentes();
@@ -102,7 +96,12 @@ public class LocacaoService {
 		}
 	}
 
-	public void setEmailService(EmailService email) {
-		this.emailService = email;
-	}
+	/* Substituido pelo MockitoAnnotations
+	 * public void setEmailService(EmailService email) { this.emailService = email;
+	 * }
+	 * 
+	 * public void setLocacaoDAO(LocacaoDAO dao) { this.locacaoDAO = dao; }
+	 * 
+	 * public void setSPCService(SPCService spc) { this.spcService = spc; }
+	 */
 }

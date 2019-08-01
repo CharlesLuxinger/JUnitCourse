@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -36,7 +35,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
@@ -51,9 +53,16 @@ public class LocacaoServiceTeste {
 	// independentes. Somente através da anotação
 	// @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
+	@InjectMocks
 	private LocacaoService service;
+	
+	@Mock
 	private LocacaoDAO dao;
+	
+	@Mock
 	private SPCService spc;
+	
+	@Mock
 	private EmailService email;
 
 	@Rule
@@ -76,18 +85,20 @@ public class LocacaoServiceTeste {
 
 	@Before
 	public void setUp() {
+		
 		// Executa antes de cada método @Test
-		// service = new LocacaoService();
-		service = new LocacaoService();
-
-		dao = mock(LocacaoDAO.class);
-		service.setLocacaoDAO(dao);
-
-		spc = mock(SPCService.class);
-		service.setSPCService(spc);
-
-		email = mock(EmailService.class);
-		service.setEmailService(email);
+		
+		/* Substituido pelo MockitoAnnotations
+		 * service = new LocacaoService();
+		 * 
+		 * dao = mock(LocacaoDAO.class); service.setLocacaoDAO(dao);
+		 * 
+		 * spc = mock(SPCService.class); service.setSPCService(spc);
+		 * 
+		 * email = mock(EmailService.class); service.setEmailService(email);
+		 */
+		
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@After
