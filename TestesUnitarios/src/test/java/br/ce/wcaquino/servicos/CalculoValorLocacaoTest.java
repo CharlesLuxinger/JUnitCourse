@@ -26,6 +26,9 @@ import br.ce.wcaquino.servicos.daos.LocacaoDAO;
 @RunWith(Parameterized.class)
 public class CalculoValorLocacaoTest {
 
+	private LocacaoDAO dao;
+	private SPCService spc;
+
 	@Parameter
 	public List<Filme> filmes;
 
@@ -40,8 +43,11 @@ public class CalculoValorLocacaoTest {
 	@Before
 	public void setUp() {
 		service = new LocacaoService();
-		LocacaoDAO dao = mock(LocacaoDAO.class);
+		dao = mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
+
+		spc = mock(SPCService.class);
+		service.setSPCService(spc);
 	}
 
 	private static Filme filme1 = umFilme().agora();

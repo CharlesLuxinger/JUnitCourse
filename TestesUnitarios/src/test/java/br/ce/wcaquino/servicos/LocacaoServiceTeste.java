@@ -16,6 +16,7 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -38,15 +39,16 @@ import br.ce.wcaquino.exceptions.FilmesSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.servicos.daos.LocacaoDAO;
 import br.ce.wcaquino.utils.DataUtils;
-import buildermaster.BuilderMaster;
 
 public class LocacaoServiceTeste {
 	// O JUnit não garante à ordem de execução, então é necessário manter os testes
 	// independentes. Somente através da anotação
 	// @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
-	LocacaoService service;
-
+	private LocacaoService service;
+	private LocacaoDAO dao;
+	private SPCService spc;
+	
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
 
@@ -70,8 +72,12 @@ public class LocacaoServiceTeste {
 		// Executa antes de cada método @Test
 		// service = new LocacaoService();
 		service = new LocacaoService();
-		LocacaoDAO dao = mock(LocacaoDAO.class);
+		
+		dao = mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
+		
+		spc = mock(SPCService.class);
+		service.setSPCService(spc);		
 	}
 
 	@After
@@ -268,11 +274,21 @@ public class LocacaoServiceTeste {
 		assertThat(resultado.getDataRetorno(), caiEm(Calendar.MONDAY));
 		assertThat(resultado.getDataRetorno(), caiNumaSegunda());
 		
-
-		assertTrue(segunda);
+		assertTrue(segunda); 
 	}
 	
-	public static void main(String[] args) {
-		new BuilderMaster().gerarCodigoClasse(Locacao.class);
+	@Test
+	public void nãoDeveAlugarFilmeParaNegativadoSPS() throws FilmesSemEstoqueException, LocadoraException {
+		//Cenário
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().agora());
+		
+		when(spc.possuiNegativacao(usuario)).thenReturn(true);
+		
+		expectedException.expect(LocadoraException.class);
+		expectedException.expectMessage("Usuário Negativado!");
+		
+		// Ação
+		service.alugarFilme(usuario, filmes);
 	}
 }
