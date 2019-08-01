@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -36,7 +37,6 @@ import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmesSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.servicos.daos.LocacaoDAO;
-import br.ce.wcaquino.servicos.daos.LocacaoDAOFake;
 import br.ce.wcaquino.utils.DataUtils;
 import buildermaster.BuilderMaster;
 
@@ -70,7 +70,7 @@ public class LocacaoServiceTeste {
 		// Executa antes de cada método @Test
 		// service = new LocacaoService();
 		service = new LocacaoService();
-		LocacaoDAO dao = new LocacaoDAOFake();
+		LocacaoDAO dao = mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
 	}
 
