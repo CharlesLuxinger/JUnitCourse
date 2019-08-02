@@ -36,7 +36,15 @@ public class LocacaoService {
 			}
 		}
 
-		if (spcService.possuiNegativacao(usuario)) {
+		boolean negativado;
+		
+		try {
+			negativado = spcService.possuiNegativacao(usuario);
+		} catch (Exception e) {
+			throw new LocadoraException("Problemas com SPS, tente novamente!");
+		}
+
+		if (negativado) {
 			throw new LocadoraException("Usuário Negativado!");
 		}
 
@@ -85,8 +93,6 @@ public class LocacaoService {
 		return locacao;
 	}
 
-
-
 	public void notificarAtrasos() {
 		List<Locacao> locacoes = locacaoDAO.obterLocacoesPendentes();
 		for (Locacao locacao : locacoes) {
@@ -96,9 +102,9 @@ public class LocacaoService {
 		}
 	}
 
-	/* Substituido pelo MockitoAnnotations
-	 * public void setEmailService(EmailService email) { this.emailService = email;
-	 * }
+	/*
+	 * Substituido pelo MockitoAnnotations public void setEmailService(EmailService
+	 * email) { this.emailService = email; }
 	 * 
 	 * public void setLocacaoDAO(LocacaoDAO dao) { this.locacaoDAO = dao; }
 	 * 
