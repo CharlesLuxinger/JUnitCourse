@@ -110,4 +110,15 @@ public class LocacaoService {
 	 * 
 	 * public void setSPCService(SPCService spc) { this.spcService = spc; }
 	 */
+	
+	public void porrogarLocacao(Locacao locacao, int dias) {
+		Locacao novaLocacao = new Locacao();
+		novaLocacao.setUsuario(locacao.getUsuario());
+		novaLocacao.setFilmes(locacao.getFilmes());
+		novaLocacao.setDataLocacao(new Date());
+		novaLocacao.setDataRetorno(DataUtils.obterDataComDiferencaDias(dias));
+		novaLocacao.setValor(locacao.getValor()* dias);
+		
+		locacaoDAO.salvar(novaLocacao);
+	}
 }
